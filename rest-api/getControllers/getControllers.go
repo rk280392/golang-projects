@@ -28,7 +28,7 @@ type Labels struct {
 type Controllers struct {
 	ConnectionState string    `json:"connection_state"`
 	CreatedAt       time.Time `json:"created_at"`
-	DisconnectedAt  time.Time `json:"disconnected_at"`
+	DisconnectedAt  string    `json:"disconnected_at"`
 	DisplayName     string    `json:"display_name"`
 	Domain          string    `json:"domain"`
 	HostId          string    `json:"host_id"`
