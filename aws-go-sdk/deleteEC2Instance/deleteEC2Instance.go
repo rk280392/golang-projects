@@ -3,6 +3,7 @@ package deleteEC2Instance
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
@@ -48,6 +49,11 @@ func DeleteEC2Instance(ctx context.Context, keyName string, cfg aws.Config) erro
 	ec2Client.TerminateInstances(ctx, &ec2.TerminateInstancesInput{
 		InstanceIds: instanceIds,
 	})
+
+	err = os.Remove(keyName)
+	if err != nil {
+		return fmt.Errorf("file %s doesn't exists: ", keyName)
+	}
 	return nil
 
 }
