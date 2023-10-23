@@ -1,6 +1,7 @@
 go 1.20
 
 use (
+	./aws-go-sdk
 	./rest-api
 	./restApiWithLoginRequest
 )
