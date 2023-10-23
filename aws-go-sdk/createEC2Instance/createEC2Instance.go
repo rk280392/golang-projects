@@ -10,9 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 )
 
-func CreateKeyPairs(ctx context.Context, region, keyName string, cfg aws.Config) error {
-
-	ec2Client := ec2.NewFromConfig(cfg)
+func CreateKeyPairs(ctx context.Context, keyName string, ec2Client *ec2.Client) error {
 	existingKeyPair, err := ec2Client.DescribeKeyPairs(ctx, &ec2.DescribeKeyPairsInput{
 		Filters: []types.Filter{
 			{
@@ -39,8 +37,7 @@ func CreateKeyPairs(ctx context.Context, region, keyName string, cfg aws.Config)
 	return nil
 }
 
-func CreateEC2Instance(ctx context.Context, keyName string, cfg aws.Config) (string, error) {
-	ec2Client := ec2.NewFromConfig(cfg)
+func CreateEC2Instance(ctx context.Context, keyName string, ec2Client *ec2.Client) (string, error) {
 	describeImages, err := ec2Client.DescribeImages(ctx, &ec2.DescribeImagesInput{
 		Filters: []types.Filter{
 			{

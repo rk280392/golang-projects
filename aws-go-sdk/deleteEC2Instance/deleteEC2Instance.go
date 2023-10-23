@@ -10,8 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 )
 
-func DeleteKeyPairs(ctx context.Context, keyName string, cfg aws.Config) error {
-	ec2Client := ec2.NewFromConfig(cfg)
+func DeleteKeyPairs(ctx context.Context, keyName string, ec2Client *ec2.Client) error {
 	_, err := ec2Client.DeleteKeyPair(ctx, &ec2.DeleteKeyPairInput{
 		KeyName: &keyName,
 	})
@@ -21,8 +20,7 @@ func DeleteKeyPairs(ctx context.Context, keyName string, cfg aws.Config) error {
 	return nil
 }
 
-func DeleteEC2Instance(ctx context.Context, keyName string, cfg aws.Config) error {
-	ec2Client := *ec2.NewFromConfig(cfg)
+func DeleteEC2Instance(ctx context.Context, keyName string, ec2Client *ec2.Client) error {
 	DescInstanceOut, err := ec2Client.DescribeInstances(ctx, &ec2.DescribeInstancesInput{
 		Filters: []types.Filter{
 			{
@@ -50,7 +48,7 @@ func DeleteEC2Instance(ctx context.Context, keyName string, cfg aws.Config) erro
 		InstanceIds: instanceIds,
 	})
 
-	err = os.Remove(keyName)
+	err = os.Remove(keyName + ".pem")
 	if err != nil {
 		return fmt.Errorf("file %s doesn't exists: ", keyName)
 	}
