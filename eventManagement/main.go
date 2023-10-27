@@ -58,6 +58,8 @@ fmt.Println(date)
 we can move the Date type to another package and make its date fields unexported
 */
 
+// With this we have protected the program from getting invalid values. But we will need getter methods to get the individual field values.
+
 func main() {
 	date := calander.Date{}
 	err := date.SetDay(2)
@@ -72,10 +74,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Println(date.Day, date.Month, date.Year)
-
-	// invalid value is also printed
-	date = calander.Date{Year: 0, Month: 20, Day: 40}
 	fmt.Println(date)
+
+	// finally can get individual values with getter methods
+	fmt.Println(date.Day(), date.Month(), date.Year())
+
 }
